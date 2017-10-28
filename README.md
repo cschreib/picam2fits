@@ -6,7 +6,7 @@ raspistill --raw -o image.jpg
 picam2fits image.jpg
 ```
 
-This will generate the file ```image.fits''', which contains four FITS extensions (plus the primary HDU, which is empty), one for each color channel: red, green, green (again), and blue. There are, indeed, two green channels because of the Bayer pattern of the camera's detector:
+This will generate the file ```image.fits```, which contains four FITS extensions (plus the primary HDU, which is empty), one for each color channel: red, green, green (again), and blue. There are, indeed, two green channels because of the Bayer pattern of the camera's detector:
 ```
 +--+--+--+--+--+
 |BG|BG|BG|BG|BG|
