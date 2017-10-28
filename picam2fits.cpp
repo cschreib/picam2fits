@@ -205,7 +205,8 @@ int main(int argc, char* argv[]) {
             std::size_t fsize = in.tellg();
 
             if (fsize < NDPIX) {
-                std::cerr << "error: file size is less than expected RAW data size" << std::endl;
+                std::cerr << "error: " << infile << " does not contain RAW data"
+                    << (argc > 2 ? ", ignoring" : "") << std::endl;
                 return 1;
             }
 
