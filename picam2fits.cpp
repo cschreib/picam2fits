@@ -141,25 +141,61 @@ int main(int argc, char* argv[]) {
     fits_set_hdustruc(fptr, &status);
     if (!cfitsio_check(status)) return 1;
 
+    auto write_wcs = [&](float crpix1, float crpix2) {
+        const char* axis_type = "PIXEL";
+        fits_write_key(fptr, TSTRING, "CTYPE1", const_cast<char*>(axis_type), nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+        fits_write_key(fptr, TSTRING, "CTYPE2", const_cast<char*>(axis_type), nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+
+        const char* unit = "um";
+        fits_write_key(fptr, TSTRING, "CUNIT1", const_cast<char*>(unit), nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+        fits_write_key(fptr, TSTRING, "CUNIT2", const_cast<char*>(unit), nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+
+        fits_write_key(fptr, TFLOAT, "CRPIX1", &crpix1, nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+        fits_write_key(fptr, TFLOAT, "CRPIX2", &crpix2, nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+
+        float zero = 0.0;
+        fits_write_key(fptr, TFLOAT, "CRVAL1", &zero, nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+        fits_write_key(fptr, TFLOAT, "CRVAL2", &zero, nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+
+        float pixel_size = 2*1.12;
+        fits_write_key(fptr, TFLOAT, "CDELT1", &pixel_size, nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+        fits_write_key(fptr, TFLOAT, "CDELT2", &pixel_size, nullptr, &status);
+        if (!cfitsio_check(status)) return false;
+        return true;
+    };
+
     // R
     fits_movabs_hdu(fptr, 2, nullptr, &status);
     fits_write_img(fptr, TSHORT, 1, NPIX, r.data(), &status);
     if (!cfitsio_check(status)) return 1;
+    if (!write_wcs(0.0, 1.0)) return 1;
 
     // G
     fits_movabs_hdu(fptr, 3, nullptr, &status);
     fits_write_img(fptr, TSHORT, 1, NPIX, g1.data(), &status);
     if (!cfitsio_check(status)) return 1;
+    if (!write_wcs(0.0, 0.5)) return 1;
 
     // G
     fits_movabs_hdu(fptr, 4, nullptr, &status);
     fits_write_img(fptr, TSHORT, 1, NPIX, g2.data(), &status);
     if (!cfitsio_check(status)) return 1;
+    if (!write_wcs(0.5, 1.0)) return 1;
 
     // B
     fits_movabs_hdu(fptr, 5, nullptr, &status);
     fits_write_img(fptr, TSHORT, 1, NPIX, b.data(), &status);
     if (!cfitsio_check(status)) return 1;
+    if (!write_wcs(0.5, 0.5)) return 1;
 
     return 0;
 }

@@ -6,7 +6,7 @@ raspistill --raw -o image.jpg
 picam2fits image.jpg image.fits
 ```
 
-The generated FITS file contains four extensions (plus the primary HDU, which is empty), one for each color channel: red, green, green (again) and blue. There are, indeed, two green channels because of the Bayer pattern of the camera's detector:
+The generated FITS file contains four extensions (plus the primary HDU, which is empty), one for each color channel: red, green, green (again), and blue. There are, indeed, two green channels because of the Bayer pattern of the camera's detector:
 ```
 +--+--+--+--+--+
 |BG|BG|BG|BG|BG|
@@ -20,7 +20,7 @@ The generated FITS file contains four extensions (plus the primary HDU, which is
 +--+--+--+--+--+
 ```
 
-The image is thus shifted by half a pixel in the x and y directions between the two green channels, and thus they provide independent information about the image. The output images have 1640x1232 pixels per channel, with integer values from 0 to 1023.
+The image is shifted by half a pixel in the X and Y directions between the two green channels, and thus they provide independent information about the image. This is reflected in the WCS coordinate system, which provides the position of each pixel on the detector (in microns, from the bottom-left corner). The output images have 1640x1232 pixels per channel, with integer values from 0 to 1023.
 
 
 # Install instructions
