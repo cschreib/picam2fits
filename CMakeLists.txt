@@ -17,10 +17,13 @@ else()
 endif()
 
 find_package(CFITSIO REQUIRED)
+find_package(Exif REQUIRED)
 
 include_directories(${CFITSIO_INCLUDES})
+include_directories(${EXIF_INCLUDE_DIRS})
 
 add_executable(picam2fits picam2fits.cpp)
 target_link_libraries(picam2fits ${CFITSIO_LIBRARIES})
+target_link_libraries(picam2fits ${EXIF_LIBRARIES})
 
 install(TARGETS picam2fits DESTINATION bin)
