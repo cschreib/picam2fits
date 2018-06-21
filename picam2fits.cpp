@@ -106,7 +106,7 @@ bool read_entry(ExifEntry* e, ExifByteOrder bo, T& f) {
     }
     case EXIF_FORMAT_ASCII: {
         std::istringstream iss(reinterpret_cast<char*>(e->data));
-        return iss >> f;
+        return bool(iss >> f);
     }
     case EXIF_FORMAT_UNDEFINED:
         return false;
